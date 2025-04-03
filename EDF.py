@@ -34,7 +34,10 @@ def get_activated_tasks():
     ready = []
     for i in range(len(a_list)):
         if(time >= a_list[i] and c_list[i] != 0): #alle die bereit sind und die die nicht fertig gerechnet wurden
-             ready.append(i)
+            print("the activation of task" , list(id)[i] , "is ", a_list[i])
+            print("the runtime of    task" , list(id)[i] , "is ", c_list[i])
+
+            ready.append(i)
     return ready
 
 def get_newly_activated():
@@ -57,6 +60,7 @@ def task_to_run():
     print("                                                                                                                                           4.  ZEIT ZEIT ZEIT   " , time)
     activated_tasks = get_activated_tasks()
     print("es gibt " , len(activated_tasks) , " aktivierte Tasks    zum Zeitpunkt" , time , "\n\n")
+    print("activated task ist " , activated_tasks)
     for i in activated_tasks:
         print("Die Task " , i , "wird untersucht", ts[i])
         print("Dies task hat" , ts[i][2] , " als deadline")
@@ -66,35 +70,38 @@ def task_to_run():
             
             print("Task sollte " , min(d_list) , "als deadline haben")
             print("die gewählte task " , ts[i] , "wird gewählt" , "\n\n")
-            return ts[i] , i
+            return ts[i], i
 
 def run_task():
     global time
-    ttr  , i = task_to_run()
+    ttr, i = task_to_run()
     print("||||||||||||||||||             TASK              TO          RUN          "           , ttr)
     print ( "                      #################                    Laufzeit ist:               " , ttr[1], "                       ####################" , "\n\n")
     print("Die task to run ist" , ttr)
     #newly_ac = get_newly_activated(time+1) #check if newly updated tasks 
     while(ttr[1] > 0):#solang keine neue tasks und noch laufzeit
-        shedule.append(i)
+        shedule.append(list(id)[ts.index(ttr)])
         ttr[1] -= 1
+        c_list[i] -= 1
         print(">>>>>>>>>>>>>>>>>>>>>>>>> run time to go " , ttr[1] , ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         time +=1   
         print("                                                                                                                                            5. ZEIT ZEIT ZEIT   " , time)
         if(ttr[2] == 0 and ttr[1] > 0):
+         
             return -1
         if(ttr[1] == 0):
-            print("//////////////////TASK FINISHED/////////////////\n\n")
-            print("//////////////////TASK WILL GET DELETED//////////////\n\n")
-            index = ts.index(ttr)
-            print("//////////////////INDEX OF DELETING TASKS/IS/////////////\n\n" , index)
-            del a_list[index]
-            print("//////////////////NEW ACTIVATION LIST/////////////\n\n" , a_list)
-            del c_list[index]
-            del d_list[index]
-            print("/////////////////deadlines ar//////////////////////////\n\n", d_list)
-            del ts[index]
-            print("&&&&&&&&&&&&&&&&&&&&&&& TASK SET IS&&&&&&&&&&&&&&&&&&&&&\n\n", ts)
+            del d_list[ts.index(ttr)]
+            #print("//////////////////TASK FINISHED/////////////////\n\n")
+            #print("//////////////////TASK WILL GET DELETED//////////////\n\n")
+            #index = ts.index(ttr)
+            #print("//////////////////INDEX OF DELETING TASKS/IS/////////////\n\n" , index)
+            #del a_list[index]
+            #print("//////////////////NEW ACTIVATION LIST/////////////\n\n" , a_list)
+            #del c_list[index]
+            #del d_list[index]
+            #print("/////////////////deadlines ar//////////////////////////\n\n", d_list)
+            #del ts[index]
+            #print("&&&&&&&&&&&&&&&&&&&&&&& TASK SET IS&&&&&&&&&&&&&&&&&&&&&\n\n", ts)
         if(get_newly_activated()):
             
             break
