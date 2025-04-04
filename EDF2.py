@@ -3,9 +3,10 @@ class EDF():
     def __init__(self, taskset ):
         self.time = 0
         self.shedule = []
-        self.ts.self.ts = taskset
-
-        self.a_list , self.c_list , self.d_list = self.ts.create_lists()
+        self.ts = taskset.ts
+        print(taskset.ts)
+        self.a_list , self.c_list , self.d_list = taskset.create_lists()
+        print(self.a_list , self.c_list , self.d_list )
 
 
     
@@ -37,29 +38,28 @@ class EDF():
     def task_to_run(self):
         activated_tasks = self.get_activated_tasks()
         for i in activated_tasks:
-            if((self.ts.[i][2]) == min(self.d_list) or len(activated_tasks) == 1): #die mit der kleinsten deadline wird gewählt außer nur eine Aktiv 
-                return self.ts[i] , i
+            if((self.ts[string.ascii_uppercase[i]][2]) == min(self.d_list) or len(activated_tasks) == 1): #die mit der kleinsten deadline wird gewählt außer nur eine Aktiv 
+                return self.ts[string.ascii_uppercase[i]] , i
 
     def run_task(self):
         ttr  , i = self.task_to_run()
         
         while(ttr[1] > 0):#solang keine neue tasks und noch laufzeit
-            for key in id.keys():
-                    if id[key] == ttr:
+            for key in self.ts.keys():
+                    if self.ts[key] == ttr:
                         self.shedule.append(key)
                         break
             ttr[1] -= 1
             self.c_list[i] -= 1
             self.update_time()   
-            print("                                                                                                                                            5. ZEIT ZEIT ZEIT   " , time)
             
             if(ttr[2] == 0 and ttr[1] > 0):
                 print("deadline verpasst" , ttr)
             
             if(ttr[1] == 0):
-                print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))" ,)
+                print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))" )
                 del self.d_list[i]
-                del self.ts[i]
+                del self.ts[string.ascii_uppercase[i]]
                 del self.a_list[i]
                 del self.c_list[i]
             
@@ -106,6 +106,6 @@ t = Taskset([t1.task,t2.task,t3.task,t4.task])
 
 
 edf_1 = EDF(t)
-
-edf_1.run_task()
+while (len(t.ts) > 0):
+    edf_1.run_task()
     
