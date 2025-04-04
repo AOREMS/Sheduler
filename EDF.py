@@ -22,6 +22,8 @@ shedule = []
 
 ts = [t1,t2,t3]
 
+n_tasks = len(ts)
+
 a_list = [t1[0],t2[0],t3[0]]
 c_list = [t1[1], t2[1], t3[1]]
 d_list = [t1[2], t2[2], t3[2]]
@@ -70,40 +72,51 @@ def task_to_run():
             
             print("Task sollte " , min(d_list) , "als deadline haben")
             print("die gewählte task " , ts[i] , "wird gewählt" , "\n\n")
-            return ts[i], i
+            return ts[i] , i
 
 def run_task():
     global time
-    ttr, i = task_to_run()
+    ttr  , i = task_to_run()
     print("||||||||||||||||||             TASK              TO          RUN          "           , ttr)
     print ( "                      #################                    Laufzeit ist:               " , ttr[1], "                       ####################" , "\n\n")
     print("Die task to run ist" , ttr)
     #newly_ac = get_newly_activated(time+1) #check if newly updated tasks 
     while(ttr[1] > 0):#solang keine neue tasks und noch laufzeit
-        shedule.append(list(id)[ts.index(ttr)])
+        """for x in range(len(ts)): 
+            print("ok ok also die Task die wir suchen sollte " , ts[x] , "sein...  die die wir gerade überprüfen ist" ,  id[list(id)[x]])
+            if(id[list(id)[x]] in ts): shedule.append(list(id)[x])
+            x += 1
+            """
+        for key in id.keys():
+            if id[key] == ttr:
+                shedule.append(key)
+                break
         ttr[1] -= 1
         c_list[i] -= 1
         print(">>>>>>>>>>>>>>>>>>>>>>>>> run time to go " , ttr[1] , ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         time +=1   
         print("                                                                                                                                            5. ZEIT ZEIT ZEIT   " , time)
         if(ttr[2] == 0 and ttr[1] > 0):
-         
-            return -1
+            print("deadline verpasst" , ttr)
         if(ttr[1] == 0):
-            del d_list[ts.index(ttr)]
+            print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))" ,)
+            print(" deadline wird gelöscht weil task fertig" , d_list[i])
+            del d_list[i]
+            print(" task wird gelöscht weil task fertig" , ts[ts.index(ttr)])
+            del ts[i]
+            print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO DIE TASK DIE GELoeSCHT WIRD " , list(id)[i])
+
+            #del list(id)[i]
             #print("//////////////////TASK FINISHED/////////////////\n\n")
             #print("//////////////////TASK WILL GET DELETED//////////////\n\n")
-            #index = ts.index(ttr)
             #print("//////////////////INDEX OF DELETING TASKS/IS/////////////\n\n" , index)
-            #del a_list[index]
+            del a_list[i]
             #print("//////////////////NEW ACTIVATION LIST/////////////\n\n" , a_list)
-            #del c_list[index]
-            #del d_list[index]
+            del c_list[i]
             #print("/////////////////deadlines ar//////////////////////////\n\n", d_list)
             #del ts[index]
             #print("&&&&&&&&&&&&&&&&&&&&&&& TASK SET IS&&&&&&&&&&&&&&&&&&&&&\n\n", ts)
         if(get_newly_activated()):
-            
             break
 
     
