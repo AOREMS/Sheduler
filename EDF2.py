@@ -3,8 +3,10 @@ class EDF():
     def __init__(self, taskset ):
         self.time = 0
         self.shedule = []
+        self.id = taskset.id
         self.ts = taskset.ts
-        print(taskset.ts)
+        print(taskset.id)
+        print(self.ts)
         self.a_list , self.c_list , self.d_list = taskset.create_lists()
         print(self.a_list , self.c_list , self.d_list )
 
@@ -37,19 +39,22 @@ class EDF():
     
     def task_to_run(self):
         activated_tasks = self.get_activated_tasks()
+        min_deadline = min(self.ts[i][2] for i in activated_tasks) 
         for i in activated_tasks:
-            if((self.ts[string.ascii_uppercase[i]][2]) == min(self.d_list) or len(activated_tasks) == 1): #die mit der kleinsten deadline wird gewählt außer nur eine Aktiv 
-                return self.ts[string.ascii_uppercase[i]] , i
+            if(self.ts[i][2] == min_deadline):
+                return self.ts[i] , i
+        
 
     def run_task(self):
-        ttr  , i = self.task_to_run()
-        
+        ttr ,i  = self.task_to_run()
         while(ttr[1] > 0):#solang keine neue tasks und noch laufzeit
-            for key in self.ts.keys():
-                    if self.ts[key] == ttr:
+            for key in self.id.keys():
+                    if self.id[key] == ttr:
                         self.shedule.append(key)
                         break
+            print(self.shedule)
             ttr[1] -= 1
+
             self.c_list[i] -= 1
             self.update_time()   
             
@@ -59,7 +64,7 @@ class EDF():
             if(ttr[1] == 0):
                 print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))" )
                 del self.d_list[i]
-                del self.ts[string.ascii_uppercase[i]]
+                del self.ts[i]
                 del self.a_list[i]
                 del self.c_list[i]
             
@@ -78,9 +83,10 @@ class Task():
 
 class Taskset():
     def __init__(self, tasks : list):
-        self.ts = {}
+        self.id = {}
+        self.ts = tasks
         for i , task in enumerate(tasks):
-            self.ts[string.ascii_uppercase[i]] = task
+            self.id[string.ascii_uppercase[i]] = task
         
 
     def create_lists(self):
@@ -88,10 +94,10 @@ class Taskset():
         self.c = []
         self.d = []
         
-        for key in self.ts.keys():
-            self.a.append(self.ts[key][0])#alle activations
-            self.c.append(self.ts[key][1])#alle laufzeiten  .append(key)
-            self.d.append(self.ts[key][2])#alle deadlines
+        for key in self.id.keys():
+            self.a.append(self.id[key][0])#alle activations
+            self.c.append(self.id[key][1])#alle laufzeiten  .append(key)
+            self.d.append(self.id[key][2])#alle deadlines
         return (self.a, self.c, self.d)
     
 
@@ -108,4 +114,5 @@ t = Taskset([t1.task,t2.task,t3.task,t4.task])
 edf_1 = EDF(t)
 while (len(t.ts) > 0):
     edf_1.run_task()
+
     
