@@ -1,3 +1,4 @@
+import sys
 import string
 class EDF():
     def __init__(self, taskset ):
@@ -5,20 +6,14 @@ class EDF():
         self.shedule = []
         self.id = taskset.id
         self.ts = taskset.ts
-        print(taskset.id)
-        print(self.ts)
         self.a_list , self.c_list = taskset.create_lists()
-        print(self.a_list , self.c_list )
-
-
-    
+       
     def get_time(self):
         return self.time
     
     def update_time(self):
         self.time += 1
 
-    
     def get_activated_tasks(self):
         ready = []
         current_time = self.get_time()
@@ -33,7 +28,7 @@ class EDF():
         for i in range(len(self.a_list)):
             if(current_time == self.a_list[i]): # gibt zurück ob gerade eine neue aktiviert wurde
                 ready = True
-                print("*********************NEW TASK JUST CAME IN******************\n\n")
+                #print("*********************NEW TASK JUST CAME IN******************\n\n")
 
         return ready
     
@@ -52,7 +47,6 @@ class EDF():
                     if self.id[key] == ttr:
                         self.shedule.append(key)
                         break
-            print(self.shedule)
             ttr[1] -= 1
 
             self.c_list[i] -= 1
@@ -60,10 +54,10 @@ class EDF():
             
             if(ttr[2] == self.get_time() and ttr[1] > 0):
                 print("DEADLINE VERPASST AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" , ttr)
-                return -1
+                self.shedule.append('X')
+                sys.exit("ERROR: Shedule nicht durch EDF realisierbar")
             
             if(ttr[1] == 0):
-                print("TASK Fertig ")
                 del self.ts[i]
                 del self.a_list[i]
                 del self.c_list[i]
@@ -77,7 +71,7 @@ class Task():
         self.run_time = run_time
         self.deadline = deadline
         self.task = [self.activation, self.run_time, self.deadline]
-        print(self.task)
+
       
 
 
@@ -99,13 +93,13 @@ class Taskset():
         return (self.a, self.c)
     
 
-  
+#create taks here
 
-t1 = Task(0,3,12)
-t2 = Task(1,2,3)
-t3 = Task(1,2,7)
-t4 = Task(3,3,7)
-t5 = Task(3,1,9)
+t1 = Task(0,1,8)
+t2 = Task(1,2,10)
+t3 = Task(1,2,10)
+t4 = Task(2,2,10)
+t5 = Task(2,2,10)
 
 t = Taskset([t1.task,t2.task,t3.task,t4.task, t5.task])
 
@@ -113,5 +107,4 @@ t = Taskset([t1.task,t2.task,t3.task,t4.task, t5.task])
 edf_1 = EDF(t)
 while (len(t.ts) > 0):
     edf_1.run_task()
-
-    
+print(edf_1.shedule)
