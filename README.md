@@ -6,14 +6,15 @@ Dieses Modul implementiert das Earliest Deadline First (EDF)
 
 ## Nutzung
 ### Ändern des Shedulers:
-### wenn preemtiv dann die get_newly_activated() beibehalten
+### wenn preemtiv & aperiodisch
+alle Fkt beibehalten
 
-### wenn algorithmus jedes mal rechnet: 
-get_newly_activated() löschen und task_to_run in die while Schleife von run_task()
+### wenn algorithmus jedes mal neu rechnet: 
+get_newly_activated() löschen und ttr , i = task_to_run() in die while Schleife von run_task() packen siehe(Latest Laxity)
 
 ### wenn nicht aperiodisch:
-einfach get_activated_tasks() und get_newly_activated löschen,#alle activation lists löschen und 
-  in task_to_run() einfach über alle tasks iterieren und Algorithmus implementieren
+get_activated_tasks(), get_newly_activated löschen und activation lists löschen
+und in task_to_run() einfach über alle tasks iterieren und AuswahlAlgorithmus implementieren
 
 ## Grund
 Implementierung eines in Echtzeitsysteme gelernten Scheduling-Verfahrens
