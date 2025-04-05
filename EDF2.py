@@ -58,11 +58,12 @@ class EDF():
             self.c_list[i] -= 1
             self.update_time()   
             
-            if(ttr[2] == 0 and ttr[1] > 0):
-                print("deadline verpasst" , ttr)
+            if(ttr[2] == self.get_time() and ttr[1] > 0):
+                print("DEADLINE VERPASST AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" , ttr)
+                return -1
             
             if(ttr[1] == 0):
-                print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))")
+                print("TASK Fertig ")
                 del self.ts[i]
                 del self.a_list[i]
                 del self.c_list[i]
@@ -100,12 +101,13 @@ class Taskset():
 
   
 
-t1 = Task(0,2,7)
-t2 = Task(2,1,8)
-t3 = Task(3,2,5)
-t4 = Task(2,2,20)
+t1 = Task(0,3,12)
+t2 = Task(1,2,3)
+t3 = Task(1,2,7)
+t4 = Task(3,3,7)
+t5 = Task(3,1,9)
 
-t = Taskset([t1.task,t2.task,t3.task,t4.task])
+t = Taskset([t1.task,t2.task,t3.task,t4.task, t5.task])
 
 
 edf_1 = EDF(t)
