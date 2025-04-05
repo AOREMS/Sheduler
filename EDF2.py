@@ -7,8 +7,8 @@ class EDF():
         self.ts = taskset.ts
         print(taskset.id)
         print(self.ts)
-        self.a_list , self.c_list , self.d_list = taskset.create_lists()
-        print(self.a_list , self.c_list , self.d_list )
+        self.a_list , self.c_list = taskset.create_lists()
+        print(self.a_list , self.c_list )
 
 
     
@@ -62,8 +62,7 @@ class EDF():
                 print("deadline verpasst" , ttr)
             
             if(ttr[1] == 0):
-                print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))" )
-                del self.d_list[i]
+                print("TASK Fertig (((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))")
                 del self.ts[i]
                 del self.a_list[i]
                 del self.c_list[i]
@@ -92,13 +91,11 @@ class Taskset():
     def create_lists(self):
         self.a = []
         self.c = []
-        self.d = []
         
         for key in self.id.keys():
             self.a.append(self.id[key][0])#alle activations
             self.c.append(self.id[key][1])#alle laufzeiten  .append(key)
-            self.d.append(self.id[key][2])#alle deadlines
-        return (self.a, self.c, self.d)
+        return (self.a, self.c)
     
 
   
