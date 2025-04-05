@@ -22,7 +22,7 @@ class EDF():
                 ready.append(i)
         return ready
         
-    def task_to_run(self):
+    def task_to_run(self): #with run_task only method that needs change
         activated_tasks = self.get_activated_tasks()
         min_laxity = min((self.ts[i][2] - self.ts[i][1]) for i in activated_tasks)
         for i in activated_tasks:
