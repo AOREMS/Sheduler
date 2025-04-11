@@ -34,6 +34,8 @@ class EDF():
     
     def task_to_run(self):
         activated_tasks = self.get_activated_tasks()
+        if not activated_task:
+            return None
         min_deadline = min(self.ts[i][2] for i in activated_tasks) 
         for i in activated_tasks:
             if(self.ts[i][2] == min_deadline):
@@ -41,7 +43,11 @@ class EDF():
         
 
     def run_task(self):
-        ttr ,i  = self.task_to_run()
+        result = self.task_to_run()
+        if result is None:
+            self.shedule.append("_")  # Leerlauf
+            self.update_time()
+            return
         while(ttr[1] > 0):#solang keine neue tasks und noch laufzeit
             for key in self.id.keys():
                     if self.id[key] == ttr:
